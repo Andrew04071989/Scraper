@@ -7,7 +7,7 @@ import argparse
 from is_valid_input import IsValid
 
 
-class Arguments:
+class Arguments(object):
     """
     This class generates arguments and a description for them.
     This module also checks the correctness
@@ -38,21 +38,25 @@ class Arguments:
         parser.add_argument(
             'IATA_FROM', action='store_const', const=self.iata_from,
             help='Departure city. This parameter corresponds '
-                 'to the IATA code of the city of departure.')
+                 'to the IATA-code of the city of departure.'
+                 'IATA-code contains 3 uppercase letter characters. ')
         parser.add_argument(
             'IATA_TO', action='store_const', const=self.iata_to,
             help='Arrival city. This parameter corresponds '
-                 'to the IATA code of the city of arrival.')
+                 'to the IATA-code of the city of arrival. '
+                 'IATA-code contains 3 uppercase letter characters. ')
         parser.add_argument(
             'DEP_DATE', action='store_const',
             const=self.dep_date,
             help='Departure date. Date of departure '
-                 'in YYYY-MM-DD format.')
+                 'contains only numeric values and "-" '
+                 'in format YYYY-MM-DD.')
         parser.add_argument(
             '--RET_DATE', action='store_const', const=self.ret_date,
             default='',
             help='Return date. Return date '
-                 'in YYYY-MM-DD format.')
+                 'contains only numeric values and "-" '
+                 'in format YYYY-MM-DD.')
         return parser
 
     def parse_arguments(self):

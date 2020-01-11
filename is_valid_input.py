@@ -7,7 +7,7 @@ from datetime import date
 from get_default_values import DefaultValues
 
 
-class IsValid:
+class IsValid(object):
     """
     This class checks the correctness of the data entered by the user
     and displays error messages with the ability to re-enter the data.
@@ -60,9 +60,14 @@ class IsValid:
             if self.from_city in set(dep_cities):
                 valid['depart city'] = True
             else:
+                print('\nInvalid IATA departure city code. \n'
+                      'IATA-code must contain '
+                      '3 uppercase letter characters. \n'
+                      'List of permitted IATA codes '
+                      'for departure cities: {}'.
+                      format(set(dep_cities)))
                 self.from_city = input(
-                    'Invalid IATA departure city code. '
-                    'Please re-enter: ')
+                    'Please re-enter departure city IATA-code: ')
         return valid
 
     def input_arrive_city(self):
@@ -79,13 +84,30 @@ class IsValid:
         if valid['depart city'] is True:
             arr_cities = \
                 self.def_val.get_arrive_city_values(self.from_city)
+            if self.from_city in arr_cities:
+                arr_cities.remove(self.from_city)
             while valid['arrive city'] is False:
                 if self.to_city in arr_cities:
                     valid['arrive city'] = True
+                elif arr_cities == []:
+                    valid['depart city'] = False
+                    print('\nSorry! According to information today '
+                          'there are no flights from '
+                          'the specified city with IATA - {}'.
+                          format(self.from_city))
+                    self.from_city = input(
+                        'Please enter another '
+                        'IATA-code of departure city : ')
+                    self.input_arrive_city()
                 else:
+                    print('\nInvalid IATA arrive city code. \n'
+                          'IATA-code must contain '
+                          '3 uppercase letter characters. \n'
+                          'List of permitted IATA codes '
+                          'for arrive cities: {}'.
+                          format(set(arr_cities)))
                     self.to_city = input(
-                        'Invalid IATA arrive city code. '
-                        'Please re-enter: ')
+                        'Please re-enter arrive city IATA-code: ')
         return valid
 
     def depart_date_format(self):
@@ -103,12 +125,14 @@ class IsValid:
                 valid['depart date format'] = True
             except ValueError:
                 self.depart_date = input(
-                    'String date can contain only '
-                    'numeric values and "-". '
+                    '\nThe departure date can contain only '
+                    'numeric values and "-" and '
+                    'must be in format YYYY-MM-DD. \n'
                     'Please re-enter depart date: ')
             except IndexError:
                 self.depart_date = input(
-                    'Incorrect format. '
+                    '\nIncorrect format. The departure date '
+                    'must be in format YYYY-MM-DD. \n'
                     'Please re-enter depart date: ')
         return valid
 
@@ -130,13 +154,14 @@ class IsValid:
                 valid['return date format'] = True
             except ValueError:
                 self.return_date = input(
-                    'String date can contain only '
-                    'numeric values and "-". '
-                    'Also check for a day in the current month. '
-                    'Please re-enter return date: ')
+                    '\nThe return date can contain only '
+                    'numeric values and "-" and '
+                    'must be in format YYYY-MM-DD. \n'
+                    'Please re-enter depart date: ')
             except IndexError:
                 self.return_date = input(
-                    'Incorrect format. '
+                    '\nIncorrect format. The return date '
+                    'must be in format YYYY-MM-DD. \n'
                     'Please re-enter return date: ')
         return valid
 
@@ -163,8 +188,11 @@ class IsValid:
                     depart_day in set(default_dep_date_d):
                 valid['depart date value'] = True
             else:
-                self.depart_date = input('Invalid depart date. '
-                                         'Please re-enter: ')
+                self.depart_date = input(
+                    '\nInvalid depart date. \n'
+                    'Date does not exist or '
+                    'is not allowed to be used. \n'
+                    'Please re-enter: ')
         return valid
 
     def is_ret_date_according_to_default(self):
@@ -193,17 +221,19 @@ class IsValid:
                     return_day in
                     set(default_ret_date_d)):
                 if return_date < depart_date:
-                    print("Error: The return date can't be earlier "
+                    print("\nError: The return date can't be earlier "
                           "than the departure date.")
-                    self.return_date = input(
-                        "Please re-enter departure date: ")
                     self.depart_date = input(
-                        "Please re-enter return date: ")
+                        "\nPlease re-enter departure date: ")
+                    self.return_date = input(
+                        "\nPlease re-enter return date: ")
                     valid = self.is_ret_date_according_to_default()
                 else:
                     valid['return date value'] = True
             else:
                 self.return_date = input(
-                    'Invalid return date. '
+                    '\nInvalid return date. \n'
+                    'Date does not exist '
+                    'or is not allowed to be used. \n'
                     'Please re-enter: ')
         return valid

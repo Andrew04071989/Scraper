@@ -6,7 +6,7 @@ import requests
 from lxml import html
 
 
-class Tree:
+class Tree(object):
     """
     This class opens a GET and POST request sessions
     and returns and returns the element trees (DOM).

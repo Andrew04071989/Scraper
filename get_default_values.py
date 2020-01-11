@@ -5,7 +5,7 @@ extracting the default data.
 from get_tree import Tree
 
 
-class DefaultValues:
+class DefaultValues(object):
     """
     This class generates lists of all parameters
     allowed for input (type-string).
@@ -79,4 +79,8 @@ class DefaultValues:
             'option[@value = "{}"]/'
             '@data-targets'.
             format(depart_city))
-        return default_arr_city[0]
+        if default_arr_city != []:
+            default_res = default_arr_city[0].split(',')
+        else:
+            default_res = default_arr_city
+        return default_res

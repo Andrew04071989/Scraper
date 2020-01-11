@@ -3,7 +3,7 @@ from get_tree import Tree
 from create_url import UrlConstructor
 
 
-class FlightData:
+class FlightData(object):
     """ This class is responsible for receiving flight data. """
     def __init__(self, from_city, to_city,
                  depart_date, return_date):

@@ -3,7 +3,7 @@ from get_flight_data import FlightData
 from arguments import Arguments
 
 
-class StartScraping:
+class StartScraping(object):
     """ This class is responsible for
     displaying flight information. """
     def __init__(self, from_city, to_city,
@@ -24,26 +24,26 @@ class StartScraping:
         """
         option_counter = 0
         flight_data = self.fl_data.get_flight_info_data()
-        for flight in flight_data:
-            option_counter += 1
-            print('__________\nOption #{}:\n__________'.
-                  format(str(option_counter)))
-            direction_counter = 0
-            for direction in flight:
-                if flight != {}:
+        if len(flight_data) > 0:
+            for flight in flight_data:
+                option_counter += 1
+                print('__________\nOption #{}:\n__________'.
+                      format(str(option_counter)))
+                direction_counter = 0
+                for direction in flight:
                     direction_counter += 1
                     if direction_counter == 1:
                         print('FORWARD FLIGHT DIRECTION:\n')
                     elif direction_counter == 2:
-                        print('REVERS FLIGHT DIRECTION:\n')
+                        print('\nREVERS FLIGHT DIRECTION:\n')
                     print('Direction: {}'.format(direction))
                     for item in flight[direction]:
                         print('{}: {}'.format(
                             item,
                             flight[direction][item]))
-                else:
-                    print('Flights are not available')
                 print('\n')
+        else:
+            print('\nFLIGHTS NOT FOUND!')
 
 
 def main():
@@ -56,7 +56,7 @@ def main():
         iata_from, iata_to,
         dep_date, ret_date)
     marker = False
-    choice = input('Enter "1" for Search flight'
+    choice = input('\nEnter "1" for Search flight'
                    ' or "2" for Help: ')
     while marker is False:
         if choice == '1':
@@ -68,9 +68,16 @@ def main():
             marker = True
         elif choice == '2':
             arg.print_help_info()
-            marker = True
+            action = input('\nDo you want to search flights? \n'
+                           'Enter "y" for Search or '
+                           'any character for Exit: ')
+            if action == 'y':
+                marker = False
+                choice = '1'
+            else:
+                marker = True
         else:
-            choice = input("You didn't enter '1' or '2'. "
+            choice = input("\nYou didn't enter '1' or '2'. \n"
                            "Please re-enter: ")
 
 
