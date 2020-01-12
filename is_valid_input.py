@@ -100,14 +100,14 @@ class IsValid(object):
                         'IATA-code of departure city : ')
                     self.input_arrive_city()
                 else:
-                    print('\nInvalid IATA arrive city code. \n'
+                    print('\nInvalid IATA arrival city code. \n'
                           'IATA-code must contain '
                           '3 uppercase letter characters. \n'
                           'List of permitted IATA codes '
-                          'for arrive cities: {}'.
+                          'for arrival cities: {}'.
                           format(set(arr_cities)))
                     self.to_city = input(
-                        'Please re-enter arrive city IATA-code: ')
+                        'Please re-enter arrival city IATA-code: ')
         return valid
 
     def depart_date_format(self):
@@ -128,12 +128,12 @@ class IsValid(object):
                     '\nThe departure date can contain only '
                     'numeric values and "-" and '
                     'must be in format YYYY-MM-DD. \n'
-                    'Please re-enter depart date: ')
+                    'Please re-enter departure date: ')
             except IndexError:
                 self.depart_date = input(
                     '\nIncorrect format. The departure date '
                     'must be in format YYYY-MM-DD. \n'
-                    'Please re-enter depart date: ')
+                    'Please re-enter departure date: ')
         return valid
 
     def return_date_format(self):
@@ -157,7 +157,7 @@ class IsValid(object):
                     '\nThe return date can contain only '
                     'numeric values and "-" and '
                     'must be in format YYYY-MM-DD. \n'
-                    'Please re-enter depart date: ')
+                    'Please re-enter return date: ')
             except IndexError:
                 self.return_date = input(
                     '\nIncorrect format. The return date '
@@ -189,7 +189,7 @@ class IsValid(object):
                 valid['depart date value'] = True
             else:
                 self.depart_date = input(
-                    '\nInvalid depart date. \n'
+                    '\nInvalid departure date. \n'
                     'Date does not exist or '
                     'is not allowed to be used. \n'
                     'Please re-enter: ')
